@@ -15,8 +15,8 @@
  */
 return [
     ['pattern'=>'/user/:id/:name', 'object' => '\Api\ApiAbstract'],
-    ['pattern'=>'/oauth', 'object' => '\Api\Oauth', 'function'=>'', 'methods'=>['GET','POST']],
-    ['pattern'=>'/oauth/client/add', 'object' => '\Api\Oauth', 'function'=>'createClient', 'methods'=>['GET','POST']],
+    ['pattern'=>'/auth', 'object' => '\Api\Auth', 'function'=>'', 'methods'=>['GET','POST']],
+    ['pattern'=>'/auth/client/add', 'object' => '\Api\Auth', 'function'=>'createClient', 'methods'=>['GET','POST']],
     ['pattern'=>'/user/add', 'object' => '\Api\User', 'function'=>'', 'methods'=>['GET','POST']],
     ['pattern'=>'/user/:id/order/:o_id', 'object' => '\Api\User', 'function'=>'test', 'methods'=>['GET','POST']],
 
