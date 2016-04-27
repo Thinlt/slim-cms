@@ -1,7 +1,7 @@
 <?php
 
 //Middleware
-class SlimApp extends \Slim\Middleware {
+class Middleware extends \Slim\Middleware {
     public function call()
     {
         // Get reference to application

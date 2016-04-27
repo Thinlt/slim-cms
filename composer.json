@@ -1,6 +1,7 @@
 {
   "require": {
     "slim/slim": "2.*",
-    "rmccue/requests": ">=1.0"
+    "rmccue/requests": ">=1.0",
+    "bshaffer/oauth2-server-php": "~1.8"
   }
 }

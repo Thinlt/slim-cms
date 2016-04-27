@@ -1,6 +1,8 @@
 <?php
 
 return array(
-    'templates.path' => 'web'.DS.'template'
+    'site_name' => 'Default Title',
+    'templates.path' => 'web'.DS.'template',
+    'debug' => true,
 );
 

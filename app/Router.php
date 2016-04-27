@@ -1,31 +1,44 @@
 <?php
 
-final class Route {
+final class Router {
     public static function match($app){
         $req = $app->request;
-        //$rootUri = $req->getRootUri();
+        $rootUri = $req->getRootUri();
         $resourceUri = $req->getResourceUri();
 
-        $controllerPath = explode('/', trim($resourceUri, '/'));
-
-        if(!isset($controllerPath[0])){
-            $app->notFound();
-        }
-
-        if(!isset($controllerPath[1])){
-            $controllerPath[1] = 'index';
-        }
-
-        if(!isset($controllerPath[2])){
-            $controllerPath[2] = 'index';
-        }
-
         //routing frontend
-        $app->map($resourceUri,
-            function() use ($app, $controllerPath) {
-                $router = new \Router\Frontend();
-                $router->dispatch($controllerPath[0], $controllerPath[1], $controllerPath[2], $app);
-            })->via('GET', 'POST', 'PUT', 'DELETE');
+        if($resourceUri != '/' && $resourceUri != '/home' && $resourceUri != '/index'){
+            $app->map($resourceUri,
+                function() use ($resourceUri, $app) {
+                    $router = new \Router\Frontend();
+                    $router->dispatch($resourceUri, $app);
+                })->via('GET', 'POST', 'PUT', 'DELETE');
+        }else{
+            //map route home
+            $app->map('/',
+                function() use ($resourceUri, $app) {
+                    $router = new \Router\Frontend();
+                    if($router->findRoute('home')){
+                        $router->dispatch('home', $app);
+                    }else{
+                        $router->dispatch('index', $app);
+                    }
+                })->via('GET');
+            $app->map('/:home',
+                function($home) use ($resourceUri, $app) {
+                    $router = new \Router\Frontend();
+                    if($home == 'home' || $home == 'index'){
+                        if($router->findRoute('home')){
+                            $router->dispatch('home', $app);
+                        }elseif($router->findRoute('index')){
+                            $router->dispatch('index', $app);
+                        }
+                    }else{
+                        $app->notFound();
+                    }
+                })->via('GET');
+        }
+
     }
 }
 

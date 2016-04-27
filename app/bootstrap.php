@@ -1,6 +1,7 @@
 <?php
 
 define('DS', DIRECTORY_SEPARATOR);
+define('BP', dirname(__DIR__));
 
 
 /**
@@ -28,7 +29,8 @@ HTML;
 }
 
 require __DIR__.'/autoload.php';
-require __DIR__.'/Slim.php';
+require __DIR__.'/App.php';
+require __DIR__.'/Middleware.php';
 require __DIR__.'/Router.php';
 
 if (ini_get('date.timezone') == '') {
