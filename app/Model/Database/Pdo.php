@@ -63,6 +63,7 @@ class Pdo {
                 foreach($values as $val){
                     $vs = '(';
                     foreach($val as $v){
+                        $v = \SQLite3::escapeString($v);
                         $vs .= '"'.$v.'", ';
                     }
                     $vals .= trim($vs, ', ') . '), ';
@@ -71,6 +72,7 @@ class Pdo {
             }else{
                 $vals .= '(';
                 foreach($values as $val){
+                    $val = \SQLite3::escapeString($val);
                     $vals .= '"'.$val.'", ';
                 }
                 $vals = trim($vals, ', ') . ')';
@@ -92,25 +94,28 @@ class Pdo {
      * @return bool|int pdo result
      */
     public function update($key, $columns, $values, $table){
+        $key = \SQLite3::escapeString($key);
         $sql = 'UPDATE '.$table.' SET ';
         if(count($columns) != count($values)){
             return false;
         }
         for($i = 0; $i<count($columns); $i++){
-            $sql .= $columns[$i] .' = "'.$values[$i].'", ';
+            $sql .= $columns[$i] .' = "'.\SQLite3::escapeString($values[$i]).'", ';
         }
         $sql = trim($sql, ', ');
-        $sql .= ' WHERE '.$key.' = "'. $values[array_search($key, $columns)].'"';
+        $sql .= ' WHERE '.$key.' = "'. \SQLite3::escapeString($values[array_search($key, $columns)]).'"';
         return $this->db->exec($sql);
     }
 
     public function delete($key, $value, $table){
+        $key = sqlite_escape_string($key);
         $sql = 'DELETE FROM '.$table;
-        $sql .= ' WHERE '.$key.' = "'.$value.'"';
+        $sql .= ' WHERE '.$key.' = "'.\SQLite3::escapeString($value).'"';
         return $this->db->exec($sql);
     }
 
     public function select($table, $where, $columns = '*', $limit = '', $fetch_one = false){
+        $table = \SQLite3::escapeString($table);
         $col = '';
         if(!is_array($columns)){
             $columns = array($columns);
@@ -128,7 +133,7 @@ class Pdo {
         }
 
         if($limit){
-            $sql .= ' LIMIT '.$limit;
+            $sql .= ' LIMIT '.\SQLite3::escapeString($limit);
         }
 
         return $this->selectSql($sql, $fetch_one);
@@ -141,13 +146,13 @@ class Pdo {
                 if(is_array($cond)){
                     $_where .= '(';
                     foreach($cond as $col_name2 => $cond2){
-                        $_where .= $col_name2.' = "'.$cond2.'" AND ';
+                        $_where .= $col_name2.' = "'.\SQLite3::escapeString($cond2).'" AND ';
                     }
                     $_where = trim($_where, 'AND ');
                     $_where .= ')';
                     $_where .= ' OR ';
                 }else{
-                    $_where .= $col_name.' = "'.$cond.'" AND ';
+                    $_where .= $col_name.' = "'.\SQLite3::escapeString($cond).'" AND ';
                 }
             }
             $_where = trim($_where, 'AND ');
