@@ -18,10 +18,14 @@ class Db {
         if(!$this->db_name){
             $this->db_name = 'slim_db';
         }
+
+        $this->connect($debug);
+        $this->initial();
+    }
+
+    public function connect($debug = false){
         $conn = new \PDO('sqlite:'.BP.DS.'etc'.DS.'db'.DS.$this->db_name.'.sqlite');
         $this->conn = new Pdo($conn, array(), $debug);
-
-        $this->initial();
     }
 
     public function setDb(\Model\Database\Pdo $db){

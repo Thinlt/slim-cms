@@ -17,6 +17,15 @@ abstract class ControllerAbstract implements \Controller\ControllerInterface {
 
     abstract function execute($app);
 
+    public function _run($app){
+        $this->_beforeExecute($app);
+        return $this->execute($app);
+    }
+
+    protected function _beforeExecute($app){
+        return $this;
+    }
+
     public function setApp($app){
         $this->app = $app;
         return $this;
@@ -76,6 +85,12 @@ abstract class ControllerAbstract implements \Controller\ControllerInterface {
             }
         }
         return $this;
+    }
+
+    public function redirect($url){
+        if($this->app){
+            $this->app->redirect($url, 200);
+        }
     }
 }
 

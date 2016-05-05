@@ -10,8 +10,6 @@ namespace Model\Database;
 interface ConnectionInterface {
     public function getTableName();
 
-    public function getId();
-
     public function save();
 
     public function getData($key = null);

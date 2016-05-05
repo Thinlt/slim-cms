@@ -5,9 +5,10 @@
  * Date: 4/28/2016
  * Time: 10:35 AM
  */
-namespace Model;
+namespace Model\Admin;
 
-class Object extends \Model\Database\ObjectAbstract {
+class Login extends \Model\Object {
 
-    
+
+
 }

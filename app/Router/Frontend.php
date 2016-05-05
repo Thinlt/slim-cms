@@ -15,8 +15,7 @@ class Frontend {
         }
         $controller = new $className();
         $controller->setApp($app);
-        $controller->execute($app);
-
+        $controller->_run($app);
     }
 
     public function exportControllerClass($rpath){
