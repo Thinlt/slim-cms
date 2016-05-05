@@ -8,7 +8,6 @@ class Frontend {
 
     public function dispatch($rpath, $app){
         $this->_app = $app;
-        //To do: do something
         $className = $this->exportControllerClass($rpath);
         if(!class_exists($className)){
             return $app->notFound();
@@ -27,13 +26,16 @@ class Frontend {
             $this->_app->notFound();
         }
         $className = 'controllers\\'.ucfirst($controllerPath[0]);
-        if(!isset($controllerPath[1])){
+        if(!isset($controllerPath[1]) && !class_exists($className)){
             $className .= '\\Index';
-        }
-        if(!isset($controllerPath[2])){
-            $className .= '\\Index';
+            if(!isset($controllerPath[2]) && !class_exists($className)){
+                $className .= '\\Index';
+            }
         }
 
+        if(isset($controllerPath[1])){
+            $className .= '\\'.ucfirst($controllerPath[1]);
+        }
         if(isset($controllerPath[2])){
             $className .= '\\'.ucfirst($controllerPath[2]);
         }

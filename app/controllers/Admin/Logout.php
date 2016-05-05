@@ -8,7 +8,7 @@ class Logout extends \Controller\Admin\ControllerAbstract {
     {
         $session = \Model\Admin\Session::getSingleton();
         $session->logout();
-        $this->redirect('admin/login');
+        $this->redirect($this->getUrl('admin/login'));
     }
 }
 

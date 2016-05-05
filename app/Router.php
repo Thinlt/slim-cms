@@ -7,9 +7,9 @@ final class Router {
         $resourceUri = $req->getResourceUri();
 
         //routing admin
-        $admin_url = ($app->config('admin_url_path'))?$app->config('admin_url_path'):'admin';
-        if($resourceUri == '/'.$admin_url){
-            $app->map('/'.$admin_url,
+        $admin_path = ($app->config('admin_url_path'))?$app->config('admin_url_path'):'admin';
+        if(trim($resourceUri, '/') == $admin_path){
+            $app->map($resourceUri,
                 function() use ($resourceUri, $app) {
                     $router = new \Router\Frontend();
                     if($router->findRoute('admin/admin')){

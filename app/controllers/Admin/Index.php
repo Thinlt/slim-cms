@@ -3,13 +3,13 @@
 namespace controllers\Admin;
 
 
-class Dashboard extends \Controller\Admin\ControllerAbstract {
+class Index extends \Controller\Admin\ControllerAbstract {
     public function execute($app)
     {
 
-        echo 'Welcom to Admin Dashboard';
+        echo 'Welcom to Admin Dashboard index';
 
-        echo '<br/><a href="/admin/logout" />Logout</a>';
+        echo '<br/><a href="admin/logout" />Logout</a>';
 
     }
 
