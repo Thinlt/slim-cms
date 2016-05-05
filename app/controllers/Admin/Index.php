@@ -7,9 +7,9 @@ class Index extends \Controller\Admin\ControllerAbstract {
     public function execute($app)
     {
 
-        echo 'Welcom to Admin Dashboard index';
+        echo 'Welcom to Admin Index';
 
-        echo '<br/><a href="admin/logout" />Logout</a>';
+        echo '<br/><a href="/admin/logout" />Logout</a>';
 
     }
 

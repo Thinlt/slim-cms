@@ -13,7 +13,7 @@ class Post extends \Controller\Admin\ControllerAbstract {
         $user = new \Model\Admin\User();
         $res = $user->login($app->request()->params('user_name'), $app->request()->params('password'));
         if($res){
-            $this->redirect($this->getUrl('admin/dashboard'));
+            $this->redirect($this->getUrl('admin'));
         }else{
             $session = \Model\Admin\Session::getSingleton();
             $session->addError('Login failed: not correct user name or password!');

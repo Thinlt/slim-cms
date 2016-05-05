@@ -12,7 +12,7 @@ class Login extends \Controller\Admin\ControllerAbstract {
     {
         $session = \Model\Admin\Session::getSingleton();
         if($session->isLoggedIn()){
-            $this->redirect($this->getUrl('admin/dashboard'));
+            $this->redirect($this->getUrl('admin'));
             return;
         }
 
