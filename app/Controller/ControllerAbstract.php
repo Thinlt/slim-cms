@@ -4,15 +4,17 @@
 namespace Controller;
 
 
-abstract class ControllerAbstract implements \Controller\ControllerInterface {
+abstract class ControllerAbstract implements \Controller\ControllerInterface, \Controller\RoleInterface {
 
     public $app;
     public $view;
     public $title;
 
+    protected static $roles = array(); //all role name stored as array
+
     public function __construct()
     {
-
+        $this->_addGlobalRole();
     }
 
     abstract function execute($app);
@@ -91,6 +93,26 @@ abstract class ControllerAbstract implements \Controller\ControllerInterface {
         if($this->app){
             $this->app->redirect($url, 200);
         }
+    }
+
+    public function getUrl($path = '', $params = array()){
+        return $this->app->getUrl($path, $params);
+    }
+
+    public function roleName()
+    {
+        return '';
+    }
+
+    protected function _addGlobalRole(){
+        if(!in_array($this->roleName(), static::$roles) && $this->roleName() != ''){
+            array_push(static::$roles, $this->roleName());
+        }
+        return $this;
+    }
+
+    public function getAllRoles(){
+        return static::$roles;
     }
 }
 

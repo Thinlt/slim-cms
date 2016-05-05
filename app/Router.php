@@ -6,6 +6,21 @@ final class Router {
         $rootUri = $req->getRootUri();
         $resourceUri = $req->getResourceUri();
 
+        //routing admin
+        $admin_url = ($app->config('admin_url_path'))?$app->config('admin_url_path'):'admin';
+        if($resourceUri == '/'.$admin_url){
+            $app->map('/'.$admin_url,
+                function() use ($resourceUri, $app) {
+                    $router = new \Router\Frontend();
+                    if($router->findRoute('admin/admin')){
+                        $router->dispatch('admin/admin', $app);
+                    }else{
+                        $router->dispatch('admin/index', $app);
+                    }
+                })->via('GET');
+            return;
+        }
+
         //routing frontend
         if($resourceUri != '/' && $resourceUri != '/home' && $resourceUri != '/index'){
             $app->map($resourceUri,

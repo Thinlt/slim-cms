@@ -13,12 +13,14 @@ class Root extends \View\View {
         if (is_null($this->getSingleton())) {
             static::$views['root'] = $this;
         }
+        $this->_initChild();
+    }
 
+    protected function _initChild(){
         $this->addChild('head', new \View\Page\Head());
         $this->addChild('header', new \View\Page\Header());
         $this->addChild('content', new \View\Page\Content());
         $this->addChild('footer', new \View\Page\Footer());
-
     }
 
     public function addChildGlobal($name, $child){

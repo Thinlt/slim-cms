@@ -5,7 +5,7 @@
  * Date: 4/28/2016
  * Time: 10:35 AM
  */
-namespace Model\Admin;
+namespace Model\User;
 
 class Session extends \Model\Varien\Session {
 
@@ -13,7 +13,7 @@ class Session extends \Model\Varien\Session {
 
     public function __construct()
     {
-        $this->init('admin');
+        $this->init('user');
         $this->createInstance();
     }
 
@@ -35,7 +35,11 @@ class Session extends \Model\Varien\Session {
         if(static::$instance){
             return static::$instance;
         }
-        return new self;
+        $session = new self;
+        if($session->getData('frontend')){
+            $session = $session->getData('frontend');
+        }
+        return $session;
     }
 
     public function getError($cleaned = true){
@@ -46,21 +50,10 @@ class Session extends \Model\Varien\Session {
         return $error;
     }
 
-    public function addError($message){
-        $errors = $this->getData('error');
-        if(is_array($errors)){
-            array_push($errors, $message);
-        }else{
-            $errors = $message;
-        }
-        $this->setData('error', $errors);
-        return $this;
-    }
-
     public function isLoggedIn(){
         if($this->getUser()){
             $user = $this->getUser();
-            if($user->getId() && $user->checkLogin($user->getData('user_name'), $user->getLoginPass())){
+            if($user->getId() && $user->checkLogin($user->getData('user_name'), $user->getData('password'))){
                 return true;
             }
         }
@@ -68,10 +61,12 @@ class Session extends \Model\Varien\Session {
     }
 
     public function login($user_name, $password){
-        $user = new \Model\Admin\User();
-        if($user->checkLogin($user_name, $password)){
-            $this->setUser($user);
-            return true;
+        if(!$this->isLoggedIn()){
+            $user = new \Model\User();
+            if($user->checkLogin($user_name, $password)){
+                $this->setUser($user);
+                return true;
+            }
         }
         return false;
     }

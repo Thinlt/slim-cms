@@ -1,13 +1,13 @@
 <?php
 
-namespace controllers;
+namespace controllers\Admin;
 
 
 class Admin extends \Controller\Admin\ControllerAbstract {
     public function execute($app)
     {
 
-        die('abc');
+        die('abc hhh');
 
 
 

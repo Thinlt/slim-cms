@@ -25,6 +25,7 @@ class Db {
 
     public function connect($debug = false){
         $conn = new \PDO('sqlite:'.BP.DS.'etc'.DS.'db'.DS.$this->db_name.'.sqlite');
+        $conn->exec('PRAGMA encoding = "UTF-8";');
         $this->conn = new Pdo($conn, array(), $debug);
     }
 

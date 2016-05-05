@@ -45,16 +45,24 @@ class Head extends \View\View {
         return $this->getSkinUrl($type, $fileName);
     }
 
-    public function addMeta($name, $content){
-        static::$meta['name'] = $name;
-        static::$meta['content'] = $content;
+    public function addMeta($name, $content = ''){
+        if(func_num_args() == 1 && is_array($name)){
+            static::$meta[] = $name;
+        }else{
+            static::$meta[] = array(
+                'name'  =>  $name,
+                'content' => $content
+            );
+        }
         return $this;
     }
 
     public function addLink($href, $rel, $args = array()){
-        static::$meta['href'] = $href;
-        static::$meta['rel'] = $rel;
-        static::$meta['args'] = $args;
+        static::$link[] = array(
+            'href'  =>   $href,
+            'rel'   =>   $rel,
+            'args'  =>   $args
+        );
         return $this;
     }
 
@@ -77,7 +85,11 @@ class Head extends \View\View {
     public function getMetaHtml(){
         $html = '';
         foreach (static::$meta as $meta) {
-            $html .= '<meta name="'.$meta['name'].'" content="'.$meta['content'].'" />'.PHP_EOL;
+            $html .= '<meta ';
+            foreach ($meta as $key => $value) {
+                $html .= $key.'="'.$value.'" ';
+            }
+            $html .= '/>'.PHP_EOL;
         }
         return $html;
     }

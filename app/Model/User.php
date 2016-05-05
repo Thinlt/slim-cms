@@ -5,16 +5,15 @@
  * Date: 4/28/2016
  * Time: 10:35 AM
  */
-namespace Model\Admin;
+namespace Model;
 
 class User extends \Model\ObjectAbstract {
 
     protected $role;
-    protected $login_pass;
 
     public function _construct()
     {
-        $this->_init('admin_user');
+        $this->_init('user', 'id');
     }
 
     /**
@@ -53,17 +52,11 @@ class User extends \Model\ObjectAbstract {
         return false;
     }
 
-    public function login($user_name, $password){
-        $session = \Model\Admin\Session::getSingleton();
-        return $session->login($user_name, $password);
-    }
-
     public function checkLogin($user_name, $password){
         if($this->userExist($user_name)){
             $this->load($user_name, 'user_name');
             if($this->getData('password') === $this->hashPassword($user_name, $password)){
                 if($this->getRole() && $this->getRole()->getId()){
-                    $this->setLoginPass($password);
                     return true;
                 }
             }

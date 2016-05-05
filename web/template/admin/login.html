@@ -1,5 +1,27 @@
-<div class="login">
-    <form method="POST" action="admin/login">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="form-login">
+                <div class="message error">
+                    <?php echo $this->getMessage() ?>
+                </div>
+                <div class="login-top"><span>Log in to Admin Panel</span></div>
+                <form method="POST" action="<?php echo $this->getActionUrl() ?>" role="form" >
+                    <div class="form-group">
+                        <label class="sr-only" for="user-name">Username</label>
+                        <input type="text" name="user_name" id="user-name" class="form-control required" placeholder="User name" />
+                    </div>
 
-    </form>
+                    <div class="form-group">
+                        <label class="sr-only" for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control required" placeholder="Password" />
+                    </div>
+
+                    <button type="submit" class="submit btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        Login!</button>
+                </form>
+                <div class="lost-password"><a href=""><span>Lost your password?</span></a></div>
+            </div>
+        </div>
+    </div>
 </div>

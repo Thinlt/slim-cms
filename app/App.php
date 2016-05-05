@@ -37,4 +37,20 @@ class App extends \Slim\Slim {
         }
         return new \Model\Database\Connection();
     }
+
+
+    public function getUrl($path = '', $params = array()){
+        $path = trim($path, '/');
+        $pars = '';
+        foreach ($params as $name => $value) {
+            $pars = $name.'='.$value.'&';
+        }
+        $pars = trim($pars, '&');
+        if($pars != '') $pars = '?'.$pars;
+        return $this->request->getUrl().$this->request->getRootUri().'/'.$path.$pars;
+    }
+
+    public function getBaseUrl(){
+        return $this->request->getUrl().$this->request->getRootUri();
+    }
 }

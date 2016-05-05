@@ -108,6 +108,9 @@ abstract class ViewAbstract extends \Slim\View {
         return trim(str_replace($basePath.DS.'app'.DS.'View', '', $curPath), DS);
     }
 
+    public function getUrl($path = '', $params = array()){
+        return \App::getInstance()->getUrl($path, $params);
+    }
 }
 
 
