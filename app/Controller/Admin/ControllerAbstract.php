@@ -9,6 +9,19 @@ class ControllerAbstract extends \Controller\ControllerAbstract {
         die('Not found: controller admin abstract');
     }
 
+    public function loadView($view = null){
+        if($view){
+            $this->view = $view;
+            $this->app->view($this->view);
+        }
+        if(!$this->view){
+            $root = new \View\Adminhtml\Page\Root();
+            $this->view = $root;
+            $this->app->view($this->view); //set root view for app
+        }
+        return $this;
+    }
+
     protected function _beforeExecute($app)
     {
         $session = \Model\Admin\Session::getSingleton();

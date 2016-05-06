@@ -250,7 +250,7 @@ class Session extends \Model\Varien\Object
      */
     public function useValidateHttpUserAgent()
     {
-        return true;
+        return false; //false to allow all user agent (mobile)
     }
 
     /**
@@ -276,9 +276,11 @@ class Session extends \Model\Varien\Object
         }
         else {
             if (!$this->_validate()) {
-                $this->getCookie()->delete(session_name());
+                if($this->getCookie()){
+                    $this->getCookie()->delete(session_name());
+                }
                 // throw core session exception
-                throw new \Slim\Exception('');
+                throw new \Exception('');
             }
         }
 

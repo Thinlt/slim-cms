@@ -6,20 +6,18 @@ namespace controllers\Admin;
 class Dashboard extends \Controller\Admin\ControllerAbstract {
     public function execute($app)
     {
+        $this->loadView();
+        $this->setTitle('Admin Dashboard');
 
-        echo 'Welcom to Admin Dashboard';
+        $content = new \View\Admin\Dashboard();
+        $content->reference('content', 'dashboard');
 
-        echo '<br/><a href="/admin/logout" />Logout</a>';
-
+        $this->renderView();
     }
-
 
     protected function _roleName(){
         return 'Dashboard';
     }
 
-    protected function _isCheckLogin(){
-        return true;
-    }
 }
 

@@ -29,6 +29,10 @@ body{
     color: #fff;
 }
 
+/*Root*/
+.container-fluid .no-padding {
+    padding: 0px;
+}
 
 /*General*/
 .page .message {

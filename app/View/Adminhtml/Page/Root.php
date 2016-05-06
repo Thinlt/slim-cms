@@ -6,18 +6,21 @@ class Root extends \View\Page\Root {
 
     protected function _initChild()
     {
-        //$this->setTemplate('adminhtml/page/root.html');
-
         $this->addChild('head', new \View\Adminhtml\Page\Head());
-        $this->addChild('header', new \View\Adminhtml\Page\Header());
-        $this->addChild('content', new \View\Adminhtml\Page\Content());
-        $this->addChild('footer', new \View\Adminhtml\Page\Footer());
+        $this->addChild('body', new \View\Admin\Page());
         $this->addChild('before_body_start', new \View\Adminhtml\Page\BeforeBodyStart());
         $this->addChild('after_body_start', new \View\Adminhtml\Page\AfterBodyStart());
     }
 
     protected function _beforeToHtml(){
         //$this->setTemplate('adminhtml/page/root.html');
+    }
+
+    public function getBodyHtml(){
+        if($this->getChild('body')){
+            return $this->getChild('body')->getHtml();
+        }
+        return '';
     }
 
     public function getBeforeBodyStartHtml(){
@@ -33,6 +36,7 @@ class Root extends \View\Page\Root {
         }
         return '';
     }
+
 }
 
 

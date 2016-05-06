@@ -2,11 +2,14 @@
 
 namespace View\Admin;
 
-class Login extends \View\View {
+class Login extends \View\Adminhtml\Page\Root {
 
-    public function __construct()
+    protected function _initChild()
     {
-        parent::__construct();
+        //$this->setTemplate('adminhtml/page/root.html');
+        $this->addChild('head', new \View\Adminhtml\Page\Head());
+        $this->addChild('header', new \View\Adminhtml\Page\Header());
+        $this->addChild('footer', new \View\Adminhtml\Page\Footer());
     }
 
     public function getActionUrl(){

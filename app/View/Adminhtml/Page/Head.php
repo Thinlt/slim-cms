@@ -11,6 +11,7 @@ class Head extends \View\Page\Head {
         $this->addMeta('viewport', 'width=device-width, initial-scale=1');
 
         $this->addCss('bootstrap.min.css');
+        $this->addCss('slideout.css');
         $this->addCss('adminhtml/style.css');
         $this->addCss('//fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic&subset=latin,vietnamese');
         $this->addCss('//fonts.googleapis.com/icon?family=Material+Icons');
@@ -22,6 +23,8 @@ class Head extends \View\Page\Head {
         $this->addJs('bootstrap.min.js');
         $this->addJs('jquery.backstretch.min.js');
         $this->addJs('//code.getmdl.io/1.1.3/material.min.js');
+        $this->addJs('slideout.min.js');
+        $this->addJs('adminhtml/sidebar.js');
         $this->addJs('adminhtml/main.js');
 
     }

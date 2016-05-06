@@ -16,11 +16,14 @@ class Login extends \Controller\Admin\ControllerAbstract {
             return;
         }
 
-        $this->loadView(new \View\Adminhtml\Page\Root());
+//        $root = new \View\Adminhtml\Page\Root();
+//        $root->setTemplate('adminhtml/page/root-blank.html');
+
         $this->setTitle('Admin Login');
 
         $content = new \View\Admin\Login();
-        $content->reference('content', 'login.form');
+        //$content->reference('content', 'login.form');
+        $this->loadView($content);
 
         $this->renderView();
     }
