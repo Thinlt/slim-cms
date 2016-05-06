@@ -4,6 +4,7 @@
 <?php echo $this->getHeadHtml() ?>
 </head>
 <body>
+<?php echo $this->getBeforeBodyStartHtml() ?>
 <div class="wrapper">
     <div class="page">
         <?php echo $this->getHeaderHtml() ?>
@@ -11,5 +12,6 @@
         <?php echo $this->getFooterHtml() ?>
     </div>
 </div>
+<?php echo $this->getAfterBodyStartHtml() ?>
 </body>
 </html>

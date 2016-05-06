@@ -5,6 +5,7 @@ return array(
     'templates.path' => 'web'.DS.'template',
     'db_name'   => 'slim_db',
     'debug' => true,
-    'admin_url_path' => 'admin'
+    'admin_url_path' => 'admin',
+    'path_hint' => false
 );
 
