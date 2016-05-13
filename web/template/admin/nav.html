@@ -1,6 +1,17 @@
-<nav id="menu" class="menu">
-    <ul class="nav nav-menu">
-        <li class="active"><a href="#">Home</a></li>
-        <li ><a href="#">Profile</a></li>
+<div id="sidedrawer" class="mui--no-user-select">
+    <div id="sidedrawer-brand" class="mui--appbar-line-height">Brand.io</div>
+    <div class="mui-divider"></div>
+    <ul>
+        <li>
+            <a href="<?php echo $this->getUrl('admin/repositories') ?>"><strong>Repositories</strong></a>
+        </li>
+        <!--<li>
+            <strong>Category 2</strong>
+            <ul>
+                <li><a href="#">Item 1</a></li>
+                <li><a href="#">Item 2</a></li>
+                <li><a href="#">Item 3</a></li>
+            </ul>
+        </li>-->
     </ul>
-</nav>
+</div>

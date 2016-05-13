@@ -44,6 +44,10 @@ class View extends \View\ViewAbstract {
         return $this;
     }
 
+    /**
+     * @param $name
+     * @return bool | \View\View
+     */
     public function getChild($name){
         if(isset($this->_childs[$name])){
             return $this->_childs[$name];
@@ -73,17 +77,17 @@ class View extends \View\ViewAbstract {
      * @param $name     @param $name     root.header.nav[.childName]
      * @param $childName
      * @param string $position  'before'|'after'
-     * @param null $childPos
+     * @param null $childPosName
      * @return bool|\Slim\View|Page\Root
      * @throws \Exception
      */
-    public function reference($name, $childName = null, $position = 'after', $childPos = null){
+    public function reference($name, $childName = null, $position = 'after', $childPosName = null){
         if($name == 'root'){
             $root = $this->getRoot();
             if($childName){
                 $root->updateChild($childName, $this, $position);
             }
-            $root->updatePosition($childName, $position, $childPos);
+            $root->updatePosition($childName, $position, $childPosName);
             return $root;
         }
         //find other child from root
@@ -94,19 +98,19 @@ class View extends \View\ViewAbstract {
         if($childName){
             $viewRefer->updateChild($childName, $this, $position);
         }
-        $viewRefer->updatePosition($childName, $position, $childPos);
+        $viewRefer->updatePosition($childName, $position, $childPosName);
         return $viewRefer;
     }
 
-    protected function updatePosition($childName, $position = 'after', $childPos = null){
-        if($position && $childPos){
-            if(isset($this->_childs[$childPos])){
+    protected function updatePosition($childName, $position = 'after', $childPosName = null){
+        if($position && $childPosName){
+            if(isset($this->_childs[$childPosName])){
                 $A = array();
                 $B = array();
                 if($position == 'before'){
                     $switch = 'A';
                     foreach ($this->_childs as $key => $child) {
-                        if($key == $childPos){
+                        if($key == $childPosName){
                             $switch = 'B';
                         }
                         if($switch == 'A'){
@@ -125,7 +129,7 @@ class View extends \View\ViewAbstract {
                         if($switch == 'B'){
                             $B[$key] = $child;
                         }
-                        if($key == $childPos){
+                        if($key == $childPosName){
                             $switch = 'B';
                         }
                     }

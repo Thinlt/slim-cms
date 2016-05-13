@@ -1,0 +1,17 @@
+<?php echo $this->getNavHtml() ?>
+<main id="panel" class="panel">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xm-12 no-padding">
+                <div class="wrapper">
+                    <div class="page">
+                        <?php echo $this->getHeaderHtml() ?>
+                        <?php echo $this->getContentHtml() ?>
+                        <?php echo $this->getFooterHtml() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

@@ -10,6 +10,11 @@ abstract class ViewAbstract extends \Slim\View {
     public function __construct()
     {
         parent::__construct();
+        $this->_init();
+    }
+
+    protected function _init(){
+        return $this;
     }
 
     public function setName($name){
@@ -122,7 +127,7 @@ text-align:left!important;background:red">%s</div>%s</div>',
 
     }
 
-    //get view path class dir
+    //get path from view class directory
     protected function _getPathDir(){
         $basePath = BP;
         $reflector = new \ReflectionClass(get_class($this));

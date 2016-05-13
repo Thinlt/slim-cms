@@ -6,9 +6,11 @@ class Login extends \View\Adminhtml\Page\Root {
 
     protected function _initChild()
     {
-        //$this->setTemplate('adminhtml/page/root.html');
-        $this->addChild('head', new \View\Adminhtml\Page\Head());
-        $this->addChild('header', new \View\Adminhtml\Page\Header());
+        $head = new \View\Adminhtml\Page\HeadLogin();
+        $head->setTemplate('adminhtml/page/head.html');
+        $head->setTitle('Admin Login');
+        $this->addChild('head', $head);
+        //$this->addChild('header', new \View\Adminhtml\Page\Header());
         $this->addChild('footer', new \View\Adminhtml\Page\Footer());
     }
 

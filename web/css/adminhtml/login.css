@@ -1,0 +1,22 @@
+.page .form-login {
+    margin-top: 100px;
+    padding: 50px;
+    background: #eee;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+.page .form-login .login-top {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.page .form-login button.submit {
+    float: right;
+}
+.page .footer .footer-top, .page .footer .footer-bottom {
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 12px;
+    color: #fff;
+}
