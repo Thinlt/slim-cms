@@ -1,0 +1,143 @@
+<?php
+$data = $this->getData();
+$repos      =   $data['repos'];
+$selected   =   $data['selected'];
+$user_id    =   $data['user_id'];
+?>
+
+<div ng-app="package-user" ng-controller="account-user" class="view-packages container-fluid">
+    <div class="row"><div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-0 margin-header">
+        <span class="ng-class: messageClass;" ng-cloak>{{data.message}}</span>
+    </div></div>
+    <div class="row" >
+        <div class="col-xs-12 col-xs-offset-0">
+            <div class="save-select">
+                <button ng-click="save()" ng-disabled="clicked"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-add"
+                        type="submit">Save</button>
+            </div>
+
+            <div class="checkbox-checkall">
+                <label for="check-all">Select All</label>
+                <input id="check-all" type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <!-- MDL Progress Bar with Indeterminate Progress -->
+        <div class="col-xs-12 col-xs-offset-0">
+            <div id="progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ></div>
+        </div>
+    </div>
+    <form name="form">
+        <div class="row package-list">
+            <?php foreach($repos as $repo): ?>
+                <div class="col-md-3 col-sm-6">
+                    <div class="checkbox-wrap">
+                        <label for="checkbox-<?php echo $repo['id'] ?>">
+                            <div class="mdl-shadow--3dp packages-checkbox">
+                                <?php echo $repo['owner'].'/'.$repo['repo'] ?>
+                            </div>
+                        </label>
+                        <input id="checkbox-<?php echo $repo['id'] ?>" class="checkbox-package" type="checkbox"
+                               ng-model="checkboxModel.pk_<?php echo $repo['id'] ?>"
+                               name="package-<?php echo $repo['id'] ?>"
+                        <?php if(in_array($repo['id'], $selected)): ?>
+                        checked="checked"
+                        <?php endif; ?>
+                        />
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="save-select">
+                    <button ng-click="save()" ng-disabled="clicked"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-add"
+                            type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    var packageUser = angular.module("package-user", []);
+    packageUser.controller('account-user', function($scope, $http) {
+        $scope.checkboxModel = {};
+        <?php foreach($repos as $repo): ?>
+        $scope.checkboxModel.pk_<?php echo $repo['id'] ?> = <?php if(in_array($repo['id'], $selected)): ?>true<?php else: ?>false<?php endif; ?>;
+        <?php endforeach; ?>
+
+        $scope.data = {};
+        $scope.status = {invalid: false};
+        $scope.data.message = '';
+        $scope.messageClass = 'success';
+        $scope.clicked = false;
+
+        //getData();
+
+        //add repository
+        $scope.save = function(){
+            $scope.data.message = '';
+            $scope.clicked = true;
+            $('#progress').show(200);
+            $scope.status.invalid = false;
+            $http.post('<?php echo $this->getUrl("admin/account/users/package/save") ?>',
+                    {user_id: '<?php echo $user_id ?>', packages: $scope.checkboxModel},
+                    {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+            .success(function($response){
+                $scope.data = $response;
+                if($scope.data.success){
+                    $scope.messageClass = 'success';
+                }else{
+                    $scope.messageClass = 'error';
+                }
+                $('#progress').hide(200);
+                $scope.clicked = false;
+                //getData();
+            })
+            .error(function(){
+                $scope.clicked = false;
+            });
+        };
+
+        $scope.checkAll = function() {
+            if ($scope.selectedAll) {
+                $scope.selectedAll = true;
+            } else {
+                $scope.selectedAll = false;
+            }
+            angular.forEach($scope.checkboxModel, function(value, key) {
+                $scope.checkboxModel[key] = $scope.selectedAll;
+            });
+        };
+
+
+        function getData(){
+            var url = '<?php echo $this->getUrl("admin/account/users/package/get") ?>';
+            $http.get(url).success( function(response) {
+                $scope.users = response.users;
+            });
+        };
+    });
+
+    packageUser.directive('ngClickSelect', ['$window', function ($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.on('click', function () {
+                    if (!$window.getSelection().toString()) {
+                        // Required for mobile Safari
+                        this.setSelectionRange(0, this.value.length)
+                    }
+                });
+            }
+        };
+    }]);
+
+
+</script>

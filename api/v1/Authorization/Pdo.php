@@ -10,7 +10,7 @@ class Pdo {
 
     public function __construct($config = array(), $debug = false)
     {
-        $connection = new \PDO('sqlite:'.BP.DS.'api'.DS.'storage'.DS.'oauth.sqlite');
+        $connection = new \PDO('sqlite:'.BP.DS.'etc'.DS.'db'.DS.'api.oauth.sqlite');
         if (!$connection instanceof \PDO) {
             if (is_string($connection)) {
                 $connection = array('dsn' => $connection);

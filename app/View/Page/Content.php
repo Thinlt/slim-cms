@@ -9,6 +9,12 @@ class Content extends \View\View {
         parent::__construct();
     }
 
+    public function getPageClass(){
+        $head = $this->reference('head');
+        $title = strtolower($head->getTitle());
+        $title = preg_replace('/\s+/', '-', $title);
+        return $title;
+    }
 
 }
 

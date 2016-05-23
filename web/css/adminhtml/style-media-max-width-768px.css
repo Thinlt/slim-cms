@@ -1,0 +1,9 @@
+@media (max-width: 767px) {
+    /*header*/
+    .nav-header-top {font-size: 0.7em}
+    .repositories .row .cus-float-right {text-align: right}
+    .repositories .row .btn-add-repo {
+        width: 100%;
+    }
+
+}

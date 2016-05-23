@@ -79,25 +79,42 @@ class ObjectAbstract extends \Model\Varien\Object {
 
     public function load($id, $column = null){
         $data = $this->getConnection()->load($id, $column);
-        $this->setData($data);
-        if(isset($data[$this->pk_name])){
-            $this->setId($data[$this->pk_name]);
+        if($data){
+            $this->setData($data);
+            if(isset($data[$this->pk_name])){
+                $this->setId($data[$this->pk_name]);
+            }
         }
         return $this;
     }
 
     public function save(){
+        $this->_saveBefore();
         $this->getConnection()
             ->setData($this->getData())
             ->save();
+        $this->_saveAfter();
+        return $this;
+    }
+
+    protected function _saveBefore(){
+        return $this;
+    }
+
+    protected function _saveAfter(){
         return $this;
     }
 
     public function remove(){
         if($this->getTableName() && $this->pk_name){
+            $this->_beforeRemove();
             $this->getConnection()->remove();
         }
         return false;
+    }
+
+    protected function _beforeRemove(){
+        return $this;
     }
 
     public function getCollection(){
@@ -105,6 +122,26 @@ class ObjectAbstract extends \Model\Varien\Object {
         return $this->collection;
     }
 
+    /**
+     * get collection with model for each item
+     * @return array
+     */
+    public function loadCollection(){
+        if($this->collection){
+            $collection = $this->collection->load();
+            if(isset($collection[$this->getPkName()]) && $collection[$this->getPkName()] != null){
+                $collection = array($collection);
+            }
+            $data = array();
+            foreach ($collection as $item) {
+                $model = new $this;
+                $model->setData($item);
+                $data[] = $model;
+            }
+            return $data;
+        }
+        return false;
+    }
 
     public function getVersion(){
         return $this->version;
@@ -119,4 +156,9 @@ class ObjectAbstract extends \Model\Varien\Object {
         return $this;
     }
 
+    public function clean(){
+        $this->setId('');
+        $this->setData(array());
+        return $this;
+    }
 }

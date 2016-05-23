@@ -1,16 +1,42 @@
-<div id="sidedrawer" class="mui--no-user-select">
+<div id="sidedrawer" class="mui--no-user-select menu-sidebar">
     <div id="sidedrawer-brand" class="mui--appbar-line-height">Brand.io</div>
     <div class="mui-divider"></div>
-    <ul>
-        <li>
-            <a href="<?php echo $this->getUrl('admin/repositories') ?>"><strong>Repositories</strong></a>
+    <ul class="nav-menu">
+        <li class="nav-menu-items" data-url="admin/{,dashboard}" active-class="active">
+            <a class="nav-items-set" href="<?php echo $this->getUrl('admin') ?>"><strong>Dashboard</strong></a>
         </li>
-        <!--<li>
-            <strong>Category 2</strong>
-            <ul>
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 2</a></li>
-                <li><a href="#">Item 3</a></li>
+
+        <li class="nav-menu-items" data-url="admin/repositories" active-class="active">
+            <a class="nav-items-set" href="<?php echo $this->getUrl('admin/repositories') ?>"><strong>Repositories</strong></a>
+        </li>
+
+        <li class="nav-menu-items" data-url="admin/account/{users}/{,edit,view}/{,packages}" active-class="active">
+            <a class="nav-items-set" href="<?php echo $this->getUrl('admin/account/users') ?>">
+                <strong>User</strong></a>
+        </li>
+
+        <li class="nav-menu-items" data-url="admin/account/{admins}/{,edit}" active-class="active">
+            <a class="nav-items-set" href="<?php echo $this->getUrl('admin/account/admins') ?>">
+                <strong>Admin</strong></a>
+        </li>
+
+        <li class="nav-menu-items" data-url="admin/api/{clients,user}" active-class="active">
+            <a class="nav-items-set sub-toggle"><strong>API <span class="caret">&nbsp;</span></strong></a>
+            <ul class="sub-menu">
+                <li><a href="<?php echo $this->getUrl('admin/api/clients') ?>">Clients</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-menu-items" data-url="admin/{settings}" active-class="active">
+            <a class="nav-items-set" href="<?php echo $this->getUrl('admin/settings') ?>"><strong>Settings</strong></a>
+        </li>
+
+        <!--<li class="nav-menu-items">
+            <a class="sub-toggle"><strong>Example menu <span class="caret">&nbsp;</span></strong></a>
+            <ul class="sub-menu">
+                <li><a href="#">Sub Item 1</a></li>
+                <li><a href="#">Sub Item 2</a></li>
+                <li><a href="#">Sub Item 3</a></li>
             </ul>
         </li>-->
     </ul>

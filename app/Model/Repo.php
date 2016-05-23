@@ -7,7 +7,7 @@
  */
 namespace Model;
 
-class Repo extends \Model\Object {
+class Repo extends \Model\ObjectAbstract {
 
 
     public function _construct()
@@ -15,12 +15,35 @@ class Repo extends \Model\Object {
         $this->_init('git_repo');
     }
 
+    /**
+     * @return array of \Model\Repo\Release
+     */
+    public function getReleases(){
+        $release = new \Model\Repo\Release();
+        return $release->loadByRepoId($this->getId());
+    }
+
+
+    public function addRelease(\Model\Repo\Release $release){
+        $release->setData('repo_id', $this->getId());
+        $release->save();
+        return $this;
+    }
+
+    protected function _beforeRemove()
+    {
+        $releases = $this->getReleases();
+        foreach($releases as $obj){
+            $obj->remove();
+        }
+    }
+
     public function getVersion()
     {
         return '0.1.0';
     }
 
-    protected function setup($install)
+    public function setup($install)
     {
         $install->run("
             DROP TABLE IF EXISTS {$this->getTable()};

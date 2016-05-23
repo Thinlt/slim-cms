@@ -1,0 +1,20 @@
+.view-packages .packages-checkbox {
+    padding: 5px 10px 5px 20px;
+    font-size: 13px;
+    font-weight: 100;
+    min-height: 40px;
+}
+.view-packages .checkbox-wrap input[type='checkbox']{
+    position: absolute;
+    top: -8px;
+    left: 8px;
+}
+.view-packages .checkbox-wrap label{
+    width: 100%;
+}
+.view-packages .save-select {
+    text-align: center;
+    margin: 5px;
+}
+.view-packages .package-list{margin-bottom: 30px;}
+.view-packages .checkbox-checkall {margin-bottom: 10px;}

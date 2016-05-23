@@ -17,49 +17,45 @@ class Frontend {
         $controller->_run($app);
     }
 
+    public function mapRoute($app){
+        $app->get('/package/:token/packages.json', function($token) use ($app){
+            $app->params = array('token' => $token);
+            $action = new \controllers\Package\PackagesJson();
+            $action->setApp($app);
+            $action->_run($app);
+        });
+    }
+
     public function exportControllerClass($rpath){
-        $controllerPath = explode('/', trim($rpath, '/'));
-        if(!isset($controllerPath[0])){
+
+        if(!$this->findRoute($rpath)){
             if(!$this->_app){
                 $this->_app = \App::getInstance();
             }
             $this->_app->notFound();
         }
-        $className = 'controllers\\'.ucfirst($controllerPath[0]);
-        if(!isset($controllerPath[1]) && !class_exists($className)){
-            $className .= '\\Index';
-            if(!isset($controllerPath[2]) && !class_exists($className)){
-                $className .= '\\Index';
-            }
-        }
 
-        if(isset($controllerPath[1])){
-            $className .= '\\'.ucfirst($controllerPath[1]);
+        $controllerPath = explode('/', trim($rpath, '/'));
+        foreach($controllerPath as $key => $path){
+            $controllerPath[$key] = ucfirst($path);
         }
-        if(isset($controllerPath[2])){
-            $className .= '\\'.ucfirst($controllerPath[2]);
-        }
-        if(!class_exists($className)){
-            $className = 'controllers\\'.ucfirst($controllerPath[0]);
-            if(isset($controllerPath[1])){
-                $className .= '\\'.ucfirst($controllerPath[1]);
-            }
-            if(isset($controllerPath[2])){
-                $className .= '\\'.ucfirst($controllerPath[2]);
-            }
+        $classPath = implode('\\', $controllerPath);
+        $className = 'controllers\\'.$classPath;
+        if(!class_exists($className) && count($controllerPath) <= 2){
+            $className .= '\\Index';
         }
         return $className;
     }
 
     public function findRoute($route){
-        $rpath = explode('/', trim($route, '/'));
-        $className = 'controllers\\'.ucfirst($rpath[0]);
-        if(isset($rpath[1])){
-            $className .= '\\'.ucfirst($rpath[1]);
+        $arrayPaths = explode('/', trim($route, '/'));
+
+        foreach($arrayPaths as $key => $path){
+            $arrayPaths[$key] = ucfirst($path);
         }
-        if(isset($rpath[2])){
-            $className .= '\\'.ucfirst($rpath[2]);
-        }
+
+        $routePath = implode('\\', $arrayPaths);
+        $className = 'controllers\\'.$routePath;
         if(!class_exists($className)){
             return false;
         }

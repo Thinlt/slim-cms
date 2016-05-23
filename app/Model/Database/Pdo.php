@@ -8,6 +8,9 @@ class Pdo {
     protected $db;
     protected $config;
 
+    public $pkName;
+    public $lastInsertId;
+
     public function __construct(\PDO $connection, $config = array(), $debug = false)
     {
         if (!$connection instanceof \PDO) {
@@ -77,7 +80,12 @@ class Pdo {
             }
 
             $sql .= $vals;
-            $res = $this->db->exec($sql);
+            $stmt = $this->db()->prepare($sql);
+            //$res = $this->db->exec($sql);
+            $this->db()->beginTransaction();
+            $res = $stmt->execute();
+            $this->db()->commit();
+            $this->lastInsertId = $this->db()->lastInsertId($this->pkName);
             return $res;
         }catch(\Exception $e){
             $app = \App::getInstance();
@@ -110,36 +118,57 @@ class Pdo {
     }
 
     public function delete($key, $value, $table){
-        $key = sqlite_escape_string($key);
+        //$key = sqlite_escape_string($key);
         $sql = 'DELETE FROM '.$table;
         $sql .= ' WHERE '.$key.' = \''.$value.'\'';
         return $this->db->exec($sql);
     }
 
-    public function select($table, $where, $columns = '*', $limit = '', $fetch_one = false){
-        $col = '';
-        if(!is_array($columns)){
-            $columns = array($columns);
-        }
-        foreach($columns as $cl){
-            $col .= $cl.', ';
-        }
-        $col = trim($col, ', ');
+    /**
+     * @param $table
+     * @param $where
+     * @param string $columns
+     * @param string $limit
+     * @param bool $fetch_one
+     * @return array|mixed
+     */
+    public function select($table, $where = '1', $columns = '*', $limit = '', $fetch_one = false){
+        if($where == null) $where = 1;
+        if($table){
+            $col = '';
+            if(!is_array($columns)){
+                $columns = array($columns);
+            }
+            foreach($columns as $cl){
+                $col .= $cl.', ';
+            }
+            $col = trim($col, ', ');
 
-        $sql = 'SELECT '.$col.' FROM '.$table;
+            $sql = 'SELECT '.$col.' FROM '.$table;
 
-        $_where = $this->getWhere($where);
-        if($_where){
-            $sql .= ' WHERE '.$_where;
+            $_where = $this->getWhere($where);
+            if($_where){
+                $sql .= ' WHERE '.$_where;
+            }
+
+            if($limit){
+                $sql .= ' LIMIT '.$limit;
+            }
+
+            return $this->selectSql($sql, $fetch_one);
         }
-
-        if($limit){
-            $sql .= ' LIMIT '.$limit;
-        }
-
-        return $this->selectSql($sql, $fetch_one);
+        return array();
     }
 
+    /**
+     * param where is string or array,
+     * when use string must like "colName = 'value'"
+     * when use array then must like array('colName' => 'value', 'colName2' => 'value2') for AND condition
+     * or mixed condition array like array(array('colName' => 'value', 'colName2' => 'value2'), array('condition 2'));
+     * for OR between array 1 and array 2 Ext: array(array1, array2) => array1 OR array2
+     * @param $where
+     * @return string
+     */
     public function getWhere($where){
         $_where = '';
         if(is_array($where)){
@@ -171,14 +200,7 @@ class Pdo {
                 return $res->fetch(\PDO::FETCH_ASSOC);
             }
             $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-            if(count($data) > 1){
-                return $data;
-            }
-            if(is_array($data)){
-                foreach($data as $d){
-                    return $d;
-                }
-            }
+            return $data;
         }
         return array();
     }

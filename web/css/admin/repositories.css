@@ -1,0 +1,53 @@
+#content-wrapper.repositories{
+    background-color: #FAFAFB;
+}
+.repositories .repo-header {
+    margin-top: 30px;
+}
+.repositories .row .repo-url {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.repositories .row .btn-add-repo {
+    background-color: #3E84DA;
+}
+.repositories .row .repo-list {
+    width: 100%;
+    min-height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.repositories .row .repo-list .mdl-card__title.title-custom{
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+.repositories .row .repo-list .repo-list-text {
+    font-size: 16px;
+    color: #4C4848;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+.repositories .mdl-progress.custom-progress{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: none;
+}
+.repositories .row .repo-list .fa.remove{
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #F32710;
+}
+.repositories .row .repo-list .fa.refresh{
+    position: absolute;
+    right: 4px;
+    top: 37px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #016109;
+}

@@ -9,7 +9,6 @@
     left: -200px;
     overflow: auto;
     z-index: 2;
-    background-color: #fff;
     transition: transform 0.2s;
 }
 
@@ -25,18 +24,10 @@
     padding-left: 0px;
 }
 
-#sidedrawer > ul > li:first-child {
-    padding-top: 15px;
-}
-
 #sidedrawer strong {
     display: block;
     padding: 15px 22px;
     cursor: pointer;
-}
-
-#sidedrawer strong:hover {
-    background-color: #E0E0E0;
 }
 
 #sidedrawer strong + ul > li {
@@ -64,3 +55,7 @@
     color: #fff;
     text-decoration: none;
 }
+.menu-sidebar {background-color: #373330;}
+.menu-sidebar .nav-menu .nav-menu-items a {color: #f7f3eb;}
+.menu-sidebar .nav-menu .nav-menu-items.active,
+.menu-sidebar .nav-menu .nav-menu-items.active:hover {background-color: #524d49;}

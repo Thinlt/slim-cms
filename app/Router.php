@@ -21,6 +21,10 @@ final class Router {
             return;
         }
 
+        //map route for custom route
+        $router = new \Router\Frontend();
+        $router->mapRoute($app);
+
         //routing frontend
         if($resourceUri != '/' && $resourceUri != '/home' && $resourceUri != '/index'){
             $app->map($resourceUri,

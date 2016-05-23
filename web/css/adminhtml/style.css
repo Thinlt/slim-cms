@@ -14,6 +14,11 @@ body{
     color: #fff;
 }
 
+/*Angular ngcloak prevent the Angular html template from being briefly displayed*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 /*Root*/
 .container-fluid .no-padding {
     padding: 0px;
@@ -33,14 +38,6 @@ body{
 .page .message.warning {
     color: #eae727;
 }
-/*#header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 2;
-    transition: left 0.2s;
-}*/
 #content-wrapper {
     min-height: 100%;
     overflow-x: hidden;
@@ -55,3 +52,50 @@ body{
     margin-left: 0px;
     transition: margin-left 0.2s;
 }
+.error {
+    color: #F70404;
+    font-size: 13px;
+    padding: 10px 5px;
+    line-height: 22px;
+    box-sizing: border-box;
+    text-align: justify;
+    display: block;
+}
+.success {
+    color: #098600;
+    font-size: 13px;
+    padding: 10px 5px;
+    line-height: 22px;
+    box-sizing: border-box;
+    text-align: justify;
+    display: block;
+    font-weight: 500;
+}
+#header .header-bar {
+    background-color: #34495E;
+}
+.mdl-progress.progress {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: none;
+}
+
+
+/*Form*/
+.row .margin-header {
+    margin-top: 30px;
+}
+.row .form-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.row .btn-add {
+    background-color: #3E84DA;
+    color: #fff;
+}
+
+/*List*/
+

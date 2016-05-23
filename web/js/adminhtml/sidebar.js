@@ -25,18 +25,17 @@ var Sidebar = function (el, max_screen_width){
     this.$bodyEl = $('body');
     this.$sidedrawerEl = $(el);
     this._width = this.$sidedrawerEl.width();
-    // ==========================================================================
-    // Animate menu
-    // ==========================================================================
-    var $titleEls = $('strong', this.$sidedrawerEl);
-    $titleEls.next().hide();
 
+    // ==========================================================================
+    // Animate sub menu
+    // ==========================================================================
+    var $titleEls = $('.sub-toggle', this.$sidedrawerEl);
+    $titleEls.parent('.nav-menu-items').children('.sub-menu').hide();
     $titleEls.on('click', function() {
-        $(this).next().slideToggle(200);
+        $(this).parent('.nav-menu-items').children('.sub-menu').slideToggle(200);
     });
 
     //init touch event for mobile
-
     $(window).on(touch.start, function(evt){_this.onTouchMoveStart(evt)});
     $(window).on(touch.move, function(evt){_this.onTouchMove(evt)});
     $(window).on(touch.end, function(evt){_this.onTouchMoveEnd(evt)});
@@ -210,5 +209,63 @@ jQuery(document).ready(function(){
     $('.js-show-sidedrawer').on('click', function(){sidebar.showSidedrawer()});
     $('.js-hide-sidedrawer').on('click', function(){sidebar.hideSidedrawer()});
 
+
+    //nav menu active
+    //.nav-menu, .nav-menu-items[data-url=, active-class=], .nav-items-set[.active|none]
+    var menu = $('.nav-menu');
+    var items = $('.nav-menu-items', menu);
+    var current_url = $(location).attr('pathname').replace(/^\/+|\/+$/gm,''); //trim '/'
+    items.each(function(i, e){
+        if($(e).attr('data-url')){
+            var data_url = $(e).attr('data-url').replace(/^\/+|\/+$/gm,''); //trim
+            if(checkPath(current_url, data_url)){
+                var className = $(e).attr('active-class') || 'active';
+                $(e).addClass(className);
+                $('.nav-items-set', $(e)).each(function(j){
+                    if($(this).hasClass('display-none')){
+                        $(this).css({'display':'none'});//.hide();
+                    }else if($(this).hasClass('display-remove')){
+                        $(this).remove();
+                    }{
+                        $(this).show();
+                    }
+                });
+            }
+        }
+    });
+
+    function checkPath(current_url, data_url){
+        var url_paths = current_url.split('/');
+        var data_paths = data_url.split('/');
+        //var match_continue = false;
+        if(data_url.match(/\{.+?\}/gm)){
+            var i;
+            for(i=0; i<data_paths.length; i++){
+                if(data_paths[i] && !data_paths[i].match(/\{.+\}/gm) && url_paths[i] && url_paths[i] == data_paths[i]){
+                    //match_continue = true;
+                    continue;
+                }else if(data_paths[i]){
+                    var path = data_paths[i].replace(/^\{+|\}+$/gm,'') || ''; //trim {}
+                    var paths = path.split(',');
+                    var j;
+                    for(j=0; j<paths.length; j++){
+                        if(url_paths[i] == paths[j] || (url_paths[i] == null && paths[j] == '')){
+                            break;
+                        }
+                    }
+                    if(j >= paths.length){
+                        return false;
+                    }
+                }
+            }
+            if(i >= data_paths.length){
+                return true;
+            }
+
+        }else if(current_url == data_url){
+            return true;
+        }
+        return false;
+    }
 
 });

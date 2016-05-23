@@ -15,22 +15,12 @@ class Authorization extends \Slim\Middleware {
         $this->request = \OAuth2\Request::createFromGlobals();
         $this->response = $app->response();
 
-        //$pdo = new \PDO('sqlite:'.BP.DS.'api'.DS.'storage'.DS.'oauth.sqlite');
         $storage = new \Api\Authorization\Pdo(array(), true);
 
         //$storage->reInstallDb();
         //echo 'install db';
         //$this->next->call();
         //return;
-
-        $message = '';
-        $error = false;
-
-        //validate request Auth_type
-        /*if(!$this->request->headers('Auth_type') && !$this->request->request('Auth_type')){
-            $message = 'Missing parameters: Auth_type in body or header';
-            return $this->sendResponse($message, 400, true);
-        }*/
 
         $header = getallheaders();
         $auth_type = isset($header['Auth_type'])? $header['Auth_type']:'';
@@ -43,10 +33,11 @@ class Authorization extends \Slim\Middleware {
             return $this->sendResponse($message, 400, true);
         }
 
+        //default auth type is user
         if(!$auth_type || $auth_type == 'user'){
-            $authoriation = new \Api\Authorization\User($storage);
+            $authoriation = new \Api\Authorization\Type\User($storage);
         }elseif($auth_type == 'client'){
-            $authoriation = new \Api\Authorization\Client($storage);
+            $authoriation = new \Api\Authorization\Type\Client($storage);
         }
 
         if($authoriation->validate($this->request, $this->response)){

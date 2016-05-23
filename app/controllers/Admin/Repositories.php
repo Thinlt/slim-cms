@@ -12,11 +12,14 @@ class Repositories extends \Controller\Admin\ControllerAbstract {
         $content = new \View\Admin\Repositories();
         $content->reference('content', 'repositories');
 
+        /*$viewHead = $this->getView()->getChild('head');
+        $viewHead->addCss('admin/repositories.css');*/
+
         $this->renderView();
     }
 
     protected function _roleName(){
-        return 'Dashboard';
+        return 'Repositories';
     }
 }
 

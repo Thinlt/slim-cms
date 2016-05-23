@@ -37,6 +37,12 @@ class Root extends \View\Page\Root {
         return '';
     }
 
+    public function getPageClass(){
+        $head = $this->getChild('head');
+        $title = strtolower($head->getTitle());
+        $title = preg_replace('/\s+/', '-', $title);
+        return $title;
+    }
 }
 
 

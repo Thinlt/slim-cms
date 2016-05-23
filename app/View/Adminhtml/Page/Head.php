@@ -20,11 +20,13 @@ class Head extends \View\Page\Head {
         $this->addCss('//fonts.googleapis.com/icon?family=Material+Icons');
         $this->addCss('//code.getmdl.io/1.1.3/material.indigo-pink.min.css');
         $this->addCss('mui.min.css');
+        $this->addCss('font-awesome.min.css');
         //$this->addCss('slideout.css');
         $this->addCss('adminhtml/style.css');
         $this->addCss('adminhtml/sidebar.css');
         $this->addCss('adminhtml/header.css');
         $this->addCss('adminhtml/style-media-min-width-768px.css');
+        $this->addCss('adminhtml/style-media-max-width-768px.css');
 
 //        $this->addJs('//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js');
         $this->addJs('bootstrap.min.js');

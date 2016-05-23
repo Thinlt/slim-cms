@@ -16,29 +16,19 @@ class User extends \Model\ObjectAbstract {
         $this->_init('user', 'id');
     }
 
-    /**
-     * get role model
-     * @return bool|Role
-     */
-    public function getRole(){
-        if($this->getData('role_id')){
-            if($this->role){
-                return $this->role;
-            }else{
-                $this->role = new \Model\Admin\Role();
-                $this->role->load($this->getData('role_id'));
-                return $this->role;
-            }
-        }
-        return false;
-    }
-
     public function newUser($user_name, $password, $name = '', $role = ''){
+        $helper = new \Model\Helper();
         if($role && is_object($role)){
             $role = $role->getId();
         }
         $password = $this->hashPassword($user_name, $password);
-        $this->setData(array('user_name'=>$user_name, 'password'=>$password, 'name'=>$name, 'role_id'=> $role));
+        $this->setData(array(
+            'user_name' =>  $user_name,
+            'password'  =>  $password,
+            'name'      =>  $name,
+            'role_id'   =>  $role,
+            'token'     =>  $helper->generateToken()
+        ));
         $this->save();
         return $this;
     }
@@ -80,9 +70,10 @@ class User extends \Model\ObjectAbstract {
 
             CREATE TABLE IF NOT EXISTS {$this->getTable()} (
               id           INTEGER PRIMARY KEY AUTOINCREMENT,
-              user_name    VARCHAR(255) NOT NULL,
-              name         VARCHAR(255),
+              user_name    VARCHAR(255) UNIQUE NOT NULL,
               password     VARCHAR(255),
+              token        VARCHAR(255),
+              name         VARCHAR(255),
               role_id      VARCHAR(255)
             );
         ");

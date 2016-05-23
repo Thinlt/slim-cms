@@ -7,7 +7,7 @@
  */
 namespace Model;
 
-class Test extends \Model\Object {
+class Test extends \Model\ObjectAbstract {
 
 
     public function _construct()

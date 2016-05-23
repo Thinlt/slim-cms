@@ -1,0 +1,158 @@
+<div ng-app="repositories" ng-controller="addRepo" class="repositories container-fluid">
+    <div class="row"><div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-0 repo-header">
+        <span class="ng-class: messageClass;">{{data.message}}</span>
+    </div></div>
+    <div class="row">
+        <form name="repoForm">
+            <div class="col-md-6 col-sm-8 col-md-offset-2 col-sm-offset-0">
+                <input class="repo-url" type="text" name="repo_url" ng-model="repo_url" ng-cus-select placeholder="https://github.com/Owner-Name/Repo-Name.git" required />
+                <span class="error" ng-show="repoForm.repo_url.$touched && repoForm.repo_url.$error.required && repoForm.repo_url.$invalid && repoForm.repo_url.$dirty || status.invalid">Required Field!</span>
+            </div>
+            <div class="col-sm-4 col-xs-12 cus-float-right">
+                <button ng-click="add()" ng-disabled="clicked" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-add-repo" type="submit">Add Repository</button></div>
+        </form>
+
+        <!-- MDL Progress Bar with Indeterminate Progress -->
+        <div class="col-xs-12 col-xs-offset-0">
+            <div id="add-repo-progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate custom-progress" ></div>
+        </div>
+    </div>
+
+    <div class="row" ng-repeat="repo in data.repos">
+        <div class="col-xs-12 col-xs-offset-0">
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp repo-list">
+                <i ng-click="remove(repo.id)" class="fa fa-times remove" aria-hidden="true"></i>
+                <i ng-click="update(repo.id, $event)" class="fa fa-refresh refresh" aria-hidden="true"></i>
+                <div class="mdl-card__title title-custom">
+                    <h2 class="mdl-card__title-text">Repository ID: {{repo.id}}</h2>
+                </div>
+                <div class="mdl-card__supporting-text repo-list-text">
+                    Url: {{repo.repo_url}}<br/>
+                    Releases: {{repo.releases}}<br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="repo-toast-message" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script>
+    var angularApp = angular.module("repositories", []);
+    angularApp.controller('addRepo', function($scope, $http) {
+
+        $scope.data = {};
+        $scope.status = {invalid: false};
+        $scope.messageClass = 'success';
+        $scope.clicked = false;
+
+        getData();
+
+        //add repository
+        $scope.add = function(){
+            $scope.data.message = '';
+            if($scope.repo_url){
+                $scope.clicked = true;
+                $('#add-repo-progress').show(200);
+                $scope.status.invalid = false;
+                $http.post('<?php echo $this->getUrl("admin/repositories/add") ?>',
+                        {"repo_url": $scope.repo_url},
+                        {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+                        .success(function($response){
+                            $scope.data = $response;
+                            if($scope.data.success){
+                                $scope.repoForm.$setPristine();
+                                $scope.repoForm.$setUntouched();
+                                $scope.repo_url = '';
+                                $scope.messageClass = 'success';
+                                var data = {message: $scope.data.message};
+                                var snackbarContainer = document.querySelector('#repo-toast-message');
+                                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                            }else{
+                                $scope.messageClass = 'error';
+                            }
+                            $('#add-repo-progress').hide(200);
+                            $scope.clicked = false;
+                        })
+                        .error(function(){
+                            $scope.clicked = false;
+                        });
+            }else{
+                $scope.status.invalid = true;
+            }
+        };
+
+        //remove repository
+        $scope.remove = function($id){
+            if(confirm('Delete?')){
+                $('#add-repo-progress').show(200);
+                $http.post('<?php echo $this->getUrl("admin/repositories/remove") ?>',
+                        {"id": $id},
+                        {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+                .success(function($response){
+                    $scope.data = $response;
+                    if($scope.data.success){
+                        $scope.messageClass = 'success';
+                    }else{
+                        $scope.messageClass = 'error';
+                    }
+                    $('#add-repo-progress').hide(200);
+                })
+                .error(function(){
+
+                });
+            }
+        };
+
+        //update repository
+        $scope.update = function($id, $event){
+            $scope.messageClass = '';
+            $scope.data.message = '';
+            //$('#add-repo-progress').show(200);
+            $($event.target).addClass('fa-spin');
+            $http.post('<?php echo $this->getUrl("admin/repositories/update") ?>',
+                    {"id": $id},
+                    {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+            .success(function($response){
+                $scope.data = $response;
+                getData();
+                if($scope.data.success){
+                    $scope.messageClass = 'success';
+                }else{
+                    $scope.messageClass = 'error';
+                }
+                //$('#add-repo-progress').hide(200);
+                $($event.target).removeClass('fa-spin');
+            })
+            .error(function(){
+                $scope.messageClass = 'error';
+                $scope.data.message = 'Error loaded';
+                //$('#add-repo-progress').hide(200);
+                $($event.target).removeClass('fa-spin');
+            });
+        };
+
+        function getData(){
+            var url = '<?php echo $this->getUrl("admin/repositories/get") ?>';
+            $http.get(url).success( function(response) {
+                $scope.data.repos = response.repos;
+            });
+        };
+    });
+
+    angularApp.directive('ngCusSelect', ['$window', function ($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.on('click', function () {
+                    if (!$window.getSelection().toString()) {
+                        // Required for mobile Safari
+                        this.setSelectionRange(0, this.value.length)
+                    }
+                });
+            }
+        };
+    }]);
+
+</script>

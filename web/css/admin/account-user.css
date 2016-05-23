@@ -1,0 +1,69 @@
+#content-wrapper.user-account{
+    background-color: #FAFAFB;
+}
+.account-users .user-header {
+    margin-top: 30px;
+}
+.account-users .row .user-url {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.account-users .row .btn-add-repo {
+    background-color: #3E84DA;
+}
+.account-users .row .user-list {
+    width: 100%;
+    min-height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px 0px;
+}
+.account-users .row .user-list .mdl-card__title.title-custom{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.account-users .row .user-list .token{
+    font-size: 16px;
+    color: #4C4848;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.account-users .row .user-list .user-list-text {
+    font-size: 16px;
+    color: #4C4848;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+.account-users .mdl-progress.custom-progress{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: none;
+}
+.account-users .row .user-list .fa.remove{
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #F32710;
+}
+.account-users .row .user-list .fa-pencil-square-o{
+    position: absolute;
+    right: 4px;
+    top: 37px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #016109;
+}
+
+
+@media (max-width: 767px) {
+    /*header*/
+    .row .cus-float-right {text-align: right}
+    .user-account .row .btn-add {
+        width: 100%;
+    }
+}

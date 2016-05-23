@@ -13,7 +13,7 @@ class Content extends \View\Page\Content {
     protected function _init()
     {
         $this->addChild('content.header', new \View\Adminhtml\Page\ContentHeader());
-        $this->addChild('content.bottom', new \View\Adminhtml\Page\ContentBottom());
+        //$this->addChild('content.bottom', new \View\Adminhtml\Page\ContentBottom());
     }
 
 }

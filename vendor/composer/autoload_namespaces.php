@@ -9,4 +9,5 @@ return array(
     'Slim' => array($vendorDir . '/slim/slim'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'OAuth2' => array($vendorDir . '/bshaffer/oauth2-server-php/src'),
+    'Httpful' => array($vendorDir . '/nategood/httpful/src'),
 );

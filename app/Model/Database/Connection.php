@@ -69,7 +69,9 @@ class Connection implements ConnectionInterface {
                 $this->data[$this->getPkName()] = $this->model->getId();
                 $this->conn->update($this->getPkName(), array_keys($this->data), array_values($this->data), $this->getTableName());
             }else{
+                $this->conn->pkName = $this->getPkName();
                 $this->conn->insert(array_keys($this->data), array_values($this->data), $this->getTableName());
+                $this->model->setId($this->conn->lastInsertId);
             }
         }
         return $this;
@@ -138,7 +140,7 @@ class Connection implements ConnectionInterface {
      * @param $installer \Model\Database\Db
      */
     protected function runSetup($installer){
-        if($this->model){
+        if($this->model && $this->getTable()){
             try{
                 if(is_callable(array($this->model, 'setup'))){
                     call_user_func(array($this->model, 'setup'), $installer);

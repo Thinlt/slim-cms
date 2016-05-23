@@ -1,0 +1,157 @@
+<div ng-app="package-user" ng-controller="account-user" class="account-users container-fluid">
+    <div class="row"><div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-0 margin-header">
+        <span class="ng-class: messageClass;" ng-cloak>{{data.message}}</span>
+    </div></div>
+    <div class="row" >
+        <form name="form">
+            <div class="col-md-3 col-sm-4 col-md-offset-2 col-sm-offset-0">
+                <input class="form-input" type="text" name="user_name" ng-model="user_name" ng-click-select placeholder="User name or Email" required />
+                <span class="error" ng-show="form.user_name.$touched && form.user_name.$error.required && form.user_name.$invalid && form.user_name.$dirty || status.invalid" ng-cloak>Required Field!</span>
+            </div>
+            <div class="col-md-3 col-sm-4 col-md-offset-0 col-sm-offset-0">
+                <input class="form-input" type="text" name="name" ng-model="name" ng-click-select placeholder="Full name (Optional)" />
+            </div>
+            <div class="col-sm-4 col-xs-12 cus-float-right">
+                <button ng-click="add()" ng-disabled="clicked"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-add"
+                        type="submit">Add User</button></div>
+        </form>
+
+        <!-- MDL Progress Bar with Indeterminate Progress -->
+        <div class="col-xs-12 col-xs-offset-0">
+            <div id="progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate custom-progress" ></div>
+        </div>
+    </div>
+
+    <div class="row" ng-repeat="u in users">
+        <div class="col-xs-12 col-xs-offset-0">
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp user-list">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="mdl-card__title title-custom">
+                            <h2 class="mdl-card__title-text" ng-cloak>User ID: {{u.id}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <!--<div class="mdl-card__title title-custom">
+                            <h2 class="mdl-card__title-text" ng-cloak>User ID: {{u.id}}</h2>
+                        </div>-->
+                        <div class="mdl-card__supporting-text user-list-text" ng-cloak>
+                            Username: <strong>{{u.user_name}}</strong><br/>
+                            Name: <strong>{{u.name}}</strong><br/>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <div class="mdl-card__supporting-text token" ng-cloak>
+                            Token: <strong>{{u.token}}</strong>
+                        </div>
+                        <div class="mdl-card__supporting-text user-list-text">
+                            <a href="<?php echo $this->getUrl('admin/account/users/view/packages') ?>?id={{u.id}}">View packages</a>
+                        </div>
+                    </div>
+                    <i ng-click="remove(u.id)" class="fa fa-times remove" aria-hidden="true"></i>
+                    <i ng-click="edit(u.id, $event)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="user-toast-message" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script>
+    var packageUser = angular.module("package-user", []);
+    packageUser.controller('account-user', function($scope, $http) {
+
+        $scope.data = {};
+        $scope.status = {invalid: false};
+        $scope.messageClass = 'success';
+        $scope.clicked = false;
+
+        getData();
+
+        //add repository
+        $scope.add = function(){
+            $scope.data.message = '';
+            if($scope.user_name){
+                $scope.clicked = true;
+                $('#progress').show(200);
+                $scope.status.invalid = false;
+                $http.post('<?php echo $this->getUrl("admin/account/users/add") ?>',
+                        {user_name: $scope.user_name, name: $scope.name},
+                        {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+                        .success(function($response){
+                            $scope.data = $response;
+                            if($scope.data.success){
+                                $scope.form.$setPristine();
+                                $scope.form.$setUntouched();
+                                $scope.user_name = '';
+                                $scope.messageClass = 'success';
+                                var data = {message: $scope.data.message};
+                                var snackbarContainer = document.querySelector('#user-toast-message');
+                                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                            }else{
+                                $scope.messageClass = 'error';
+                            }
+                            $('#progress').hide(200);
+                            $scope.clicked = false;
+                            getData();
+                        })
+                        .error(function(){
+                            $scope.clicked = false;
+                        });
+            }else{
+                $scope.status.invalid = true;
+            }
+        };
+
+        //remove repository
+        $scope.remove = function($id){
+            if(confirm('Delete?')){
+                $('#progress').show(200);
+                $http.post('<?php echo $this->getUrl("admin/account/users/remove") ?>',
+                        {"id": $id},
+                        {headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+                .success(function($response){
+                    $scope.data = $response;
+                    getData();
+                    if($scope.data.success){
+                        $scope.messageClass = 'success';
+                    }else{
+                        $scope.messageClass = 'error';
+                    }
+                    $('#progress').hide(200);
+                })
+                .error(function(){
+
+                });
+            }
+        };
+
+
+        function getData(){
+            var url = '<?php echo $this->getUrl("admin/account/users/get") ?>';
+            $http.get(url).success( function(response) {
+                $scope.users = response.users;
+            });
+        };
+    });
+
+    packageUser.directive('ngClickSelect', ['$window', function ($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.on('click', function () {
+                    if (!$window.getSelection().toString()) {
+                        // Required for mobile Safari
+                        this.setSelectionRange(0, this.value.length)
+                    }
+                });
+            }
+        };
+    }]);
+
+
+</script>
