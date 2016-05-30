@@ -2,7 +2,9 @@
 
 # API:
 * Get Composer Json File
+
 POST: api/composer/json/user/<user@example.com>
+
 REQUEST BODY:
     {
         "packages": [
