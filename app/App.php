@@ -39,18 +39,40 @@ class App extends \Slim\Slim {
     }
 
 
+    /**
+     * get url with url host
+     * View object also call this method
+     *
+     * @param string $path
+     * @param array $params
+     * @return string
+     */
     public function getUrl($path = '', $params = array()){
-        $path = trim($path, '/');
+        $is_secure = false;
+        if(isset($params['_secure'])){
+            if($params['_secure'] == '1' || $params['_secure'] == true){
+                $is_secure = true;
+            }
+            unset($params['_secure']);
+        }
+
+        $path = ltrim($path, '/');
         $pars = '';
         foreach ($params as $name => $value) {
             $pars = $name.'='.$value.'&';
         }
         $pars = trim($pars, '&');
         if($pars != '') $pars = '?'.$pars;
-        return $this->request->getUrl().$this->request->getRootUri().'/'.$path.$pars;
+
+        return trim($this->getBaseUrl($is_secure), '/').'/'.$path.$pars;
     }
 
-    public function getBaseUrl(){
+    public function getBaseUrl($is_secure = false){
+        if(!$is_secure && $this->config('base_url')){
+            return $this->config('base_url');
+        }elseif($is_secure && $this->config('base_url_secure')){
+            return $this->config('base_url_secure');
+        }
         return $this->request->getUrl().$this->request->getRootUri();
     }
 }

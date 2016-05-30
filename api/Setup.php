@@ -29,4 +29,6 @@ return [
     ['pattern'=>'/test', 'object' => '\Api\Test', 'function'=>'', 'methods'=>['GET']],
 
     ['pattern'=>'/repos/:packages.json', 'object' => '\Api\Repositories', 'function'=>'', 'methods'=>['GET']],
+    ['pattern'=>'/composer/json/token/:token/', 'object' => '\Api\Composer\Json', 'methods'=>['POST']],
+    ['pattern'=>'/composer/json/user/:user/', 'object' => '\Api\Composer\Json', 'methods'=>['POST']],
 ];

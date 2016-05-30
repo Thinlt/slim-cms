@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * API supported two method authorization those are Auth_type = client | user, default client
+ * Auth_type is header key value or request body key value
+ * Authorization is header key value or request body key value and value is
+ * token <token_string> ext: "token e5fb64ab8fd069f846805fb004008472bd758407"
+ */
+
 namespace Api;
 
 //Middleware

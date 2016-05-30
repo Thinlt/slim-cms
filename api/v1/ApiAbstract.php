@@ -15,6 +15,22 @@ class ApiAbstract {
     }
 
     /**
+     * get the \App instance
+     *
+     * @return \App|null|\Slim\Slim
+     */
+    public function app(){
+        if($this->app instanceof \App){
+            return $this->app;
+        }
+        return \App::getInstance();
+    }
+
+    public function getApp(){
+        return $this->app();
+    }
+
+    /**
      * @param $params array( param1[, param2, ...], 'app' )
      * example requested: format is /user/:id/order/:order_id and request /user/10/order/5 -> params: id=10, order_id = 5
      */
@@ -22,15 +38,20 @@ class ApiAbstract {
         $this->sendResponse();
     }
 
-    protected function sendResponse($data = null){
+    protected function sendResponse($data = null, $status = ''){
         if($data){
             $this->responseData = $data;
         }
         if(!$this->app){
             $this->app = \App::getInstance();
         }
-        $this->app->response->setBody(json_encode($this->responseData, JSON_PRETTY_PRINT));
+
         $this->app->response->header('Content-Type', 'application/json; charset=utf-8');
+        $this->app->response->setBody(json_encode($this->responseData, JSON_PRETTY_PRINT));
+        if(!$status){
+            $status = '200';
+        }
+        $this->app->response->setStatus($status);
         //echo $this->app->response->getBody();
     }
 }
