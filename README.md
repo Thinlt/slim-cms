@@ -2,7 +2,7 @@
 
 # APIs:
 
-* Authorization:
+## Authorization:
 
  Authorization is header key value or request body key value and value is token <token_string>
  ext: "token e5fb64ab8fd069f846805fb004008472bd758407"
@@ -15,7 +15,7 @@ HEADER:
 
 
 
-* Get Composer Json File
+## Get Composer Json File:
 
 POST: api/composer/json/user/<user@example.com>
 
