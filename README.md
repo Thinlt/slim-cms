@@ -6,6 +6,7 @@
 POST: api/composer/json/user/<user@example.com>
 
 REQUEST BODY:
+
     {
         "packages": [
             "Owner/Repo"
