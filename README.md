@@ -4,7 +4,7 @@
 
 ## Authorization:
 
- Authorization is header key value or request body key value and value is token: '&lt;token_string&gt;'. <br/>
+ Authorization is header key value or request body key value and value is token: "&lt;token_string&gt;". <br/>
  Ext: "token e5fb64ab8fd069f846805fb004008472bd758407"
 
 HEADER:
