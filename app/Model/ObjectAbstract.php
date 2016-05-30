@@ -124,7 +124,7 @@ class ObjectAbstract extends \Model\Varien\Object {
 
     /**
      * get collection with model for each item
-     * @return array
+     * @return array model this
      */
     public function loadCollection(){
         if($this->collection){

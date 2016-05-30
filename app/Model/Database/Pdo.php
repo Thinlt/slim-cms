@@ -10,6 +10,7 @@ class Pdo {
 
     public $pkName;
     public $lastInsertId;
+    public $sql; //sql string in select query
 
     public function __construct(\PDO $connection, $config = array(), $debug = false)
     {
@@ -133,6 +134,19 @@ class Pdo {
      * @return array|mixed
      */
     public function select($table, $where = '1', $columns = '*', $limit = '', $fetch_one = false){
+
+        if(!$this->sql){
+            $this->buildSelect($table, $where, $columns, $limit);
+        }
+
+        if($this->sql){
+            return $this->selectSql($this->sql, $fetch_one);
+        }
+
+        return array();
+    }
+
+    public function buildSelect($table, $where = '1', $columns = '*', $limit = ''){
         if($where == null) $where = 1;
         if($table){
             $col = '';
@@ -155,9 +169,11 @@ class Pdo {
                 $sql .= ' LIMIT '.$limit;
             }
 
-            return $this->selectSql($sql, $fetch_one);
+            $this->sql = $sql;
+
+            return $this;
         }
-        return array();
+        return $this;
     }
 
     /**

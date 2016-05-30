@@ -280,7 +280,8 @@ class Session extends \Model\Varien\Object
                     $this->getCookie()->delete(session_name());
                 }
                 // throw core session exception
-                throw new \Exception('');
+                $this->clear();
+                throw new \Exception('Not validated Session');
             }
         }
 

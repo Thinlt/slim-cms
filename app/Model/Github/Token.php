@@ -9,6 +9,6 @@ namespace Model\Github;
 
 final class Token extends \Model\ObjectAbstract {
 
-    static $token = '5826e44b35c5c677ebe599ad4640663ac84321c7';
+    static $token = '672ab877452e6d17429752162626e2811a6265f9';
 
 }

@@ -29,6 +29,15 @@ class Collection {
         return $this;
     }
 
+    /**
+     * param where is string or array,
+     * when use string must like "colName = 'value'"
+     * when use array then must like array('colName' => 'value', 'colName2' => 'value2') for AND condition
+     * or mixed condition array like array(array('colName' => 'value', 'colName2' => 'value2'), array('condition 2'));
+     * for OR between array 1 and array 2 Ext: array(array1, array2) => array1 OR array2
+     * @param $where
+     * @return Collection
+     */
     public function where($where){
         $this->where = $where;
         return $this;
@@ -70,6 +79,22 @@ class Collection {
     public function load(){
         $this->collection = $this->conn->select($this->table_name, $this->where, $this->columns, $this->limit);
         return $this->collection;
+    }
+
+    /**
+     * get query string
+     * @return string
+     */
+    public function getSql(){
+        if($this->conn && !$this->conn->sql){
+            $this->conn->buildSelect($this->table_name, $this->where, $this->columns, $this->limit);
+        }
+
+        if($this->conn && $this->conn->sql){
+            return $this->conn->sql;
+        }
+
+        return 'No sql string';
     }
 
 }
