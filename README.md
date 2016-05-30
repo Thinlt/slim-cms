@@ -9,9 +9,9 @@
 
 HEADER:
 
- {
-    "Authorization": "token e5fb64ab8fd069f846805fb004008472bd758407"
- }
+    {
+        "Authorization": "token e5fb64ab8fd069f846805fb004008472bd758407"
+    }
 
 
 
