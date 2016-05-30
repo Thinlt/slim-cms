@@ -1,6 +1,6 @@
 # slim-cms
 
-# API:
+# APIs:
 * Get Composer Json File
 
 POST: api/composer/json/user/<user@example.com>
