@@ -87,4 +87,19 @@ Response data:
              "error": true|false
         }
     
+## User - View a user by user name
 
+Method: **GET api/user/view/&lt;abc@def.com &gt;**
+
+Response:
+
+        {
+            "message": "",
+            "error": false,
+            "id": "19",
+            "user_name": "abc@def.com",
+            "password": "99bb06fd12c30f73f6a5732004512fa6801c67f6",
+            "token": "d0e39be13c309177ebf3363a416f7615483271e6",
+            "name": "John Nathan",
+            "role_id": ""
+        }
