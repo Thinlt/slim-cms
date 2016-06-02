@@ -64,3 +64,27 @@ RESPONSE:
         "error": true
     }
 
+## User - Add new user
+
+Method: **POST api/user/add**
+
+Post data:
+
+        {
+            "user_name": "<email>",
+            "fullname": "<string>",
+            "packages": [ "1", "2", "3", ... ]
+        }
+
+Response data:
+
+        {
+             "user_id": "<int>",
+             "token": "<string>",
+             "packages": [ "1", "2", ... ],
+             "message": "",
+             "success": true|false,
+             "error": true|false
+        }
+    
+

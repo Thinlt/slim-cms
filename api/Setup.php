@@ -20,15 +20,9 @@
  * }
  */
 return [
-    ['pattern'=>'/user/:id/:name', 'object' => '\Api\ApiAbstract'],
-    ['pattern'=>'/auth', 'object' => '\Api\Auth', 'function'=>'', 'methods'=>['GET','POST']],
-    ['pattern'=>'/auth/client/add', 'object' => '\Api\Auth', 'function'=>'createClient', 'methods'=>['GET','POST']],
-    ['pattern'=>'/user/add', 'object' => '\Api\User', 'function'=>'', 'methods'=>['GET','POST']],
-    ['pattern'=>'/user/:id/order/:o_id', 'object' => '\Api\User', 'function'=>'test', 'methods'=>['GET','POST']],
+    ['pattern'=>'/composer/json/token/:token/', 'object' => '\Api\Composer\Json', 'methods'=>['POST', 'GET']],
+    ['pattern'=>'/composer/json/user/:user/', 'object' => '\Api\Composer\Json', 'methods'=>['POST', 'GET']],
+    ['pattern'=>'/user/add/', 'object' => '\Api\User\Add', 'methods'=>['POST']],
 
-    ['pattern'=>'/test', 'object' => '\Api\Test', 'function'=>'', 'methods'=>['GET']],
 
-    ['pattern'=>'/repos/:packages.json', 'object' => '\Api\Repositories', 'function'=>'', 'methods'=>['GET']],
-    ['pattern'=>'/composer/json/token/:token/', 'object' => '\Api\Composer\Json', 'methods'=>['POST']],
-    ['pattern'=>'/composer/json/user/:user/', 'object' => '\Api\Composer\Json', 'methods'=>['POST']],
 ];
