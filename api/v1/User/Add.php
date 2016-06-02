@@ -74,7 +74,7 @@ class Add extends \Api\ApiAbstract{
                 $json['error'] = true;
             };
 
-            $this->sendResponse($json, 203);
+            $this->sendResponse($json, 200);
             return;
 
         }else{
