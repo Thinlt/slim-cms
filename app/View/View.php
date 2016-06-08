@@ -181,6 +181,11 @@ class View extends \View\ViewAbstract {
         return $this->getSkinUrl('images', $fileName);
     }
 
+    /**
+     * @param $type css, fonts, images are sub folder in template dir
+     * @param $file file path after sub folder of type
+     * @return string
+     */
     public function getSkinUrl($type, $file){
         $type = strtolower($type);
         $templateDir = $this->getTemplatesDirectory();

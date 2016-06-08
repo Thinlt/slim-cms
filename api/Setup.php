@@ -24,6 +24,7 @@ return [
     ['pattern'=>'/composer/json/user/:user/', 'object' => '\Api\Composer\Json', 'methods'=>['POST', 'GET']],
     ['pattern'=>'/user/add/', 'object' => '\Api\User\Add', 'methods'=>['POST']],
     ['pattern'=>'/user/view/:email/', 'object' => '\Api\User\View', 'methods'=>['GET']],
+    ['pattern'=>'/user/:id/repos/add/', 'object' => '\Api\User\Repo\Add', 'methods'=>['POST']],
 
 
 ];

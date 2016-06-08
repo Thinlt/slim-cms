@@ -31,7 +31,7 @@ class ObjectAbstract extends \Model\Varien\Object {
 
     /**
      * get the PDO connector to write database
-     * @return mixed
+     * @return \Model\Database\Connection
      */
     protected function getConnection(){
         $connection = \App::getInstance()->getConnection($this->cache_key);
@@ -117,13 +117,16 @@ class ObjectAbstract extends \Model\Varien\Object {
         return $this;
     }
 
+    /**
+     * @return \Model\Database\Collection
+     */
     public function getCollection(){
         $this->collection = $this->getConnection()->getCollection();
         return $this->collection;
     }
 
     /**
-     * get collection with model for each item
+     * get collection with model for each item, use it after getCollection()
      * @return array model this
      */
     public function loadCollection(){

@@ -103,3 +103,48 @@ Response:
             "name": "John Nathan",
             "role_id": ""
         }
+
+## User - Add packages
+
+Method: **POST api/user/{id}/repos/add**
+
+Post data:
+    
+    {
+        "repo_url": ["<http://github.com/_/_.git>"]
+    }
+    
+    OR
+    
+    {
+        "owner": "", 
+        "repo": ""
+    }
+    
+    OR
+    
+    {
+        "repos": [
+            {
+                "owner": "", 
+                "repo": ""
+            }, 
+            ...
+        ]
+    }
+    
+
+Response:
+
+        {
+            "message": "Success!",
+            "repo_ids": [
+                "58",
+                "54",
+                "19",
+                "59"
+            ],
+            "error": false,
+            "success": true
+        }
+        
