@@ -5,7 +5,7 @@ namespace Api\Authorization\Type;
 use \OAuth2\RequestInterface;
 use \Slim\Http\Response;
 
-class Client implements \Api\Authorization\GrantTypeInterface {
+class Client implements \Api\Authorization\Type\TypeInterface {
 
     public $storage;
     public $authorization;

@@ -22,6 +22,12 @@ class ControllerAbstract extends \Controller\ControllerAbstract {
         return $this;
     }
 
+
+    /**
+     * Check allow logged in
+     * @param $app
+     * @throws \Model\Exception\Denied
+     */
     protected function _beforeExecute($app)
     {
         $session = \Model\Admin\Session::getSingleton();
@@ -30,14 +36,14 @@ class ControllerAbstract extends \Controller\ControllerAbstract {
         if($this->_isCheckLogin()){
             $request = $app->request();
             if(!$session->isLoggedIn()){
-                $this->redirect($request->getUrl().'/admin/login');
+                $this->redirect($app->getUrl('admin/login'));
             }
             if(!$this->_isAllow()){
                 $session->setError('Permission denied');
                 if($request->getReferrer()){
                     $url = $request->getReferrer();
                 }else{
-                    $url = $request->getUrl().'/admin/accessdenied';
+                    $url = $app->getUrl('admin/accessdenied');
                 }
                 if($url){
                     $this->redirect($url);

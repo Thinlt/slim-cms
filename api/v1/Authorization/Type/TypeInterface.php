@@ -1,11 +1,11 @@
 <?php
 
-namespace Api\Authorization;
+namespace Api\Authorization\Type;
 
 use \OAuth2\RequestInterface;
 use \Slim\Http\Response;
 
-interface GrantTypeInterface {
+interface TypeInterface {
 
     public function validate(RequestInterface $request, Response $response);
 

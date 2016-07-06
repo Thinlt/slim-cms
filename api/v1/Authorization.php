@@ -29,23 +29,9 @@ class Authorization extends \Slim\Middleware {
         //$this->next->call();
         //return;
 
-        $header = getallheaders();
+        //$header = getallheaders();
         $auth_type = isset($header['Auth_type'])? $header['Auth_type']:'';
-        if($this->request->request('Auth_type')){
-            $auth_type = $this->request->request('Auth_type');
-        }
-        //validate Auth_type
-        if($auth_type && !in_array($auth_type, array('user', 'client'))){
-            $message = 'Missing parameters: Auth_type not found.';
-            return $this->sendResponse($message, 400, true);
-        }
-
-        //default auth type is user
-        if(!$auth_type || $auth_type == 'user'){
-            $authoriation = new \Api\Authorization\Type\User($storage);
-        }elseif($auth_type == 'client'){
-            $authoriation = new \Api\Authorization\Type\Client($storage);
-        }
+        $authoriation = new \Api\Authorization\Type\Client($storage);
 
         if($authoriation->validate($this->request, $this->response)){
             $this->next->call();
