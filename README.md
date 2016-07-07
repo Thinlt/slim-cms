@@ -17,7 +17,7 @@ HEADER:
 
 ## Get Composer Json File:
 
-POST: api/composer/json/user/<user@example.com>
+POST: api/composer/json/user/{user@example.com}
 
 REQUEST BODY:
 
@@ -89,7 +89,7 @@ Response data:
     
 ## User - View a user by user name
 
-Method: **GET api/user/view/&lt;abc@def.com &gt;**
+Method: **GET api/user/view/{user@example.com}**
 
 Response:
 
@@ -153,7 +153,7 @@ Response:
 ## User - View packages (Repo)
 Description: View Repositories had assigned to one user.
 
-Method: **GET api/user/repos/view/<email>**
+Method: **GET api/user/repos/view/{email}**
 
 Method: **GET api/user/{id}/repos/view**
 
