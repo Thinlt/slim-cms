@@ -104,7 +104,8 @@ Response:
             "role_id": ""
         }
 
-## User - Add packages
+## User - Add package (Repo)
+Description: Add the Repository to one user.
 
 Method: **POST api/user/{id}/repos/add**
 
@@ -148,3 +149,41 @@ Response:
             "success": true
         }
         
+
+## User - View packages (Repo)
+Description: View Repositories had assigned to one user.
+
+Method: **GET api/user/repos/view/<email>**
+
+Method: **GET api/user/{id}/repos/view**
+
+Response:
+
+        {
+            "message": "Success!",
+            "repo_ids": [
+                "2",
+                "1"
+            ],
+            "error": false,
+            "success": true
+        }
+        
+
+## Repo - Versions
+Description: View versions of repository.
+
+Method: **GET /repo/{vendor_name}/{repo_name}/versions**
+
+Method: **POST /repo/versions**
+Post data: { 'repo_url': 'https://github.com/Magestore/Membership-Magento2.git' }
+
+Response:
+
+        {
+            "versions": [
+                "1.0.0"
+            ]
+        }
+
+
