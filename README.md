@@ -1,4 +1,4 @@
-# slim-cms
+# Git Repository CMS
 
 # APIs:
 
@@ -176,6 +176,7 @@ Description: View versions of repository.
 Method: **GET /repo/{vendor_name}/{repo_name}/versions**
 
 Method: **POST /repo/versions**
+
 Post data: { 'repo_url': 'https://github.com/Magestore/Membership-Magento2.git' }
 
 Response:
